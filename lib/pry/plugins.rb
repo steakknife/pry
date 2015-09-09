@@ -20,8 +20,12 @@ class Pry
         @name, @gem_name, @enabled, @spec = name, gem_name, enabled, spec
       end
 
+      def blacklisted?
+        !(Pry.config.blacklisted_plugins & [name, gem_name]).empty?
+      end
+
       def enabled
-        !(Pry.config.blacklisted_plugins & [name, gem_name]).empty? && @enabled
+        @enabled && !blacklisted?
       end
 
       # Disable a plugin. (prevents plugin from being loaded, cannot
