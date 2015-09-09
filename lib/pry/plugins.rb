@@ -24,10 +24,6 @@ class Pry
         !(Pry.config.blacklisted_plugins & [name, gem_name]).empty?
       end
 
-      def enabled
-        @enabled && !blacklisted?
-      end
-
       # Disable a plugin. (prevents plugin from being loaded, cannot
       # disable an already activated plugin)
       def disable!
@@ -37,7 +33,7 @@ class Pry
       # Enable a plugin. (does not load it immediately but puts on
       # 'white list' to be loaded)
       def enable!
-        self.enabled = true
+        self.enabled = true unless blacklisted?
       end
 
       # Load the Command line options defined by this plugin (if they exist)
@@ -90,7 +86,7 @@ class Pry
         next if gem.name !~ PRY_PLUGIN_PREFIX
         plugin_name = gem.name.split('-', 2).last
         plugin = Plugin.new(plugin_name, gem.name, gem, false)
-        if plugin.supported? && !plugin_located?(plugin) && !plugin.blacklisted?
+        if plugin.supported? && !plugin_located?(plugin)
           @plugins << plugin.tap(&:enable!)
         end  
       end
