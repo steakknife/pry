@@ -52,14 +52,14 @@ class Pry::Config::Default
     }, # TODO: Pry::Platform.editor
     should_load_rc: proc {
       if ENV['PRY_SHOULD_LOAD_RC']
-        ENV['PRY_SHOULD_LOAD_RC'] =~ YES
+        !!(ENV['PRY_SHOULD_LOAD_RC'] =~ YES)
       else
         true
       end
     },
     should_load_local_rc: proc {
       if ENV['PRY_SHOULD_LOAD_LOCAL_RC']
-        ENV['PRY_SHOULD_LOAD_LOCAL_RC'] =~ YES
+        !!(ENV['PRY_SHOULD_LOAD_LOCAL_RC'] =~ YES)
       else
         true
       end
@@ -90,20 +90,20 @@ class Pry::Config::Default
     },
     should_load_requires: proc {
       if ENV['PRY_SHOULD_LOAD_REQUIRES']
-        ENV['PRY_SHOULD_LOAD_REQUIRES'] =~ YES
+        !!(ENV['PRY_SHOULD_LOAD_REQUIRES'] =~ YES)
       else
         true
       end
     },
     should_load_plugins: proc {
       if ENV['PRY_SHOULD_LOAD_PLUGINS']
-        ENV['PRY_SHOULD_LOAD_PLUGINS'] =~ YES
+        !!(ENV['PRY_SHOULD_LOAD_PLUGINS'] =~ YES)
       else
         true
       end
     },
     blacklisted_plugins: proc {
-      ENV['PRY_BLACKLISTED_PLUGINS'].split(' ') if ENV['PRY_BLACKLISTED_PLUGINS']
+      (ENV['PRY_BLACKLISTED_PLUGINS'] || '').split(' ')
     },
     windows_console_warning: proc {
       true
