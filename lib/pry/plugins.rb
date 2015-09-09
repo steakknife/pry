@@ -14,7 +14,7 @@ class Pry
     end
 
     class Plugin
-      attr_accessor :name, :gem_name, :spec, :active
+      attr_accessor :name, :gem_name, :enabled, :spec, :active
 
       def initialize(name, gem_name, spec, enabled)
         @name, @gem_name, @enabled, @spec = name, gem_name, enabled, spec
