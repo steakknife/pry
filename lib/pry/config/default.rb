@@ -51,10 +51,18 @@ class Pry::Config::Default
       Pry.default_editor_for_platform
     }, # TODO: Pry::Platform.editor
     should_load_rc: proc {
-      true
+      if ENV['PRY_SHOULD_LOAD_RC']
+        ENV['PRY_SHOULD_LOAD_RC'] =~ YES
+      else
+        true
+      end
     },
     should_load_local_rc: proc {
-      true
+      if ENV['PRY_SHOULD_LOAD_LOCAL_RC']
+        ENV['PRY_SHOULD_LOAD_LOCAL_RC'] =~ YES
+      else
+        true
+      end
     },
     should_trap_interrupts: proc {
       Pry::Helpers::BaseHelpers.jruby?
@@ -81,10 +89,21 @@ class Pry::Config::Default
       []
     },
     should_load_requires: proc {
-      true
+      if ENV['PRY_SHOULD_LOAD_REQUIRES']
+        ENV['PRY_SHOULD_LOAD_REQUIRES'] =~ YES
+      else
+        true
+      end
     },
     should_load_plugins: proc {
-      true
+      if ENV['PRY_SHOULD_LOAD_PLUGINS']
+        ENV['PRY_SHOULD_LOAD_PLUGINS'] =~ YES
+      else
+        true
+      end
+    },
+    blacklisted_plugins: proc {
+      ENV['PRY_BLACKLISTED_PLUGINS'].split(' ') if ENV['PRY_BLACKLISTED_PLUGINS']
     },
     windows_console_warning: proc {
       true
@@ -132,6 +151,8 @@ class Pry::Config::Default
   end
 
 private
+  YES = /\A(?:1|on|y|yes|t|true)\z/.freeze
+
   # TODO:
   # all of this configure_* stuff is a relic of old code.
   # we should try move this code to being command-local.

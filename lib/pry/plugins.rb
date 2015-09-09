@@ -14,10 +14,14 @@ class Pry
     end
 
     class Plugin
-      attr_accessor :name, :gem_name, :enabled, :spec, :active
+      attr_accessor :name, :gem_name, :spec, :active
 
       def initialize(name, gem_name, spec, enabled)
         @name, @gem_name, @enabled, @spec = name, gem_name, enabled, spec
+      end
+
+      def enabled
+        !(Pry.config.blacklisted_plugins & [name, gem_name]).empty? && @enabled
       end
 
       # Disable a plugin. (prevents plugin from being loaded, cannot
